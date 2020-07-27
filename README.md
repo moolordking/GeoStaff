@@ -1,0 +1,2 @@
+# GeoStaff
+Personal GeoCaching app
