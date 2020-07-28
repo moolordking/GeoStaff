@@ -13,4 +13,6 @@
     <preference name="fullscreen" value="false" />
     <preference name="android-targetSdkVersion" value="28" />
     <icon src="Icon.png" />
+    <allow-navigation href="http://*/*" />
+    <allow-intent href="https://*/*" />
 </widget>
