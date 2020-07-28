@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version='1.1' encoding='utf-8'?>
 <widget id="com.geo.staff" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>GeoStaff</name>
     <description>
@@ -7,11 +7,10 @@
     <author email="support@phonegap.com" href="http://phonegap.com">
     </author>
     <content src="index.html" />
-    <access origin="*" />
+    <access origin="*" subdomains="true" />
     <preference name="orientation" value="portrait" />
     <preference name="target-device" value="universal" />
     <preference name="fullscreen" value="false" />
     <preference name="android-targetSdkVersion" value="28" />
     <icon src="Icon.png" />
-    <access origin="*" />
 </widget>
