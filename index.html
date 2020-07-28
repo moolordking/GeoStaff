@@ -58,6 +58,27 @@
  </div>
     <script type="text/javascript">
 
+      var HomeLocationLon;
+      var HomeLocationLat;
+
+      if (localStorage.getItem('lon') == null || localStorage.getItem('lat') == null) {
+          HomeLocationLon = prompt("Home Location Lon");
+          HomeLocationLat = prompt("Home Location Lat");
+          localStorage.setItem('lon', HomeLocationLon);
+          localStorage.setItem('lat', HomeLocationLat);
+          if (HomeLocationLon == "Bance" || HomeLocationLat == "Bance" || HomeLocationLon == "bance" || HomeLocationLat == "bance") {
+              HomeLocationLon = -2.109525;
+              HomeLocationLat = 52.811356;
+              localStorage.setItem('lon', HomeLocationLon);
+              localStorage.setItem('lat', HomeLocationLat);
+          }
+      } else {
+          HomeLocationLon = localStorage.getItem('lon');
+          HomeLocationLat = localStorage.getItem('lat');
+      }
+
+      var banceHome = [-2.109525, 52.811356];
+
       document.addEventListener("offline", onOffline, false);
 
       function onOffline() {
@@ -72,24 +93,24 @@
           })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([-2.109525, 52.811356]),
+          center: ol.proj.fromLonLat([HomeLocationLon, HomeLocationLat]),
           zoom: 15
         })
       });
 
       var Home = new ol.Feature({
-                   geometry: new ol.geom.Point(ol.proj.fromLonLat([-2.109525, 52.811356])),
+                   geometry: new ol.geom.Point(ol.proj.fromLonLat([HomeLocationLon, HomeLocationLat])),
                    description:'Cach no. 1'
                });
 
       Home.setId('Home<br></b>This is where you begin<b>');
 
       var Cach1 = new ol.Feature({
-                   geometry: new ol.geom.Point(ol.proj.fromLonLat([-2.110725, 52.821356])),
+                   geometry: new ol.geom.Point(ol.proj.fromLonLat([-2.107401, 52.806908])),
                    description:'Home'
                });
 
-      Cach1.setId('Hollow of Youth<br></b>I grow up big and tall<br>lose my clothes in the fall<br>I am a new recruit<br>look below, at my roots<b>');
+      Cach1.setId('Zulabar&#39;s Walkway<br></b>Feet over me walk<br>Water under me flows<br>Treasure beneath me lies<br>In the troll&#39;s aboad<br><b>');
 
       var pStyle = new ol.style.Style({
       image: new ol.style.Circle({
