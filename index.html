@@ -1,17 +1,29 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <link href="https://fonts.googleapis.com/css2?family=Staatliches&display=swap" rel="stylesheet">
     <meta http-equiv="Content-Security-Policy" content="default-src *; style-src *  'unsafe-inline'; script-src *  'unsafe-inline'; media-src *">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.0/css/ol.css" type="text/css">
     <style>
       body {
         overflow: hidden;
-        filter: sepia(40%);
+        filter: saturate(150%);
+        background-color: #28B1BD;
+        animation: Arrive 1s cubic-bezier(.02,.98,.83,.67);
+      }
+      @keyframes Arrive {
+        0% {transform: translate(0px, 10vh); opacity: 0;}
+        100% {opacity: 1;}
       }
       .map {
         height: 93vh;
         width: 98vw;
-        transform: translate(-0.8vw, 45px);
+        transform: translate(-0.4vw, 45px);
+        animation: Arrive 1s;
+        animation-delay: 0.3s;
+        animation-fill-mode: forwards;
+        opacity: 0;
+        /*filter: hue-rotate(180deg);*/
       }
       .PopupInfo {
         background-color: rgba(7, 174, 196, 0.8);
@@ -37,21 +49,41 @@
         width: 98vw;
         height: 45px;
         background-color: #28B1BD;
-        opacity: 0.8;
-        transform: translate(-0.8vw, -0.5vh);
-        text-align: center;
+        transform: translate(-0.4vw, -0.5vh);
+        text-align: left;
         color: white;
-        font-family: sans-serif;
+        font-family: 'Staatliches', serif;
         font-size: 40px;
         box-shadow: 0px 0px 30px 30px #28B1BD;
+        opacity: 0;
+        animation: Arrive 1s cubic-bezier(.02,.98,.83,.67);
+        animation-fill-mode: forwards;
+        animation-delay: 0s;
+        display: flex;
+        user-select: none;
+      }
+      #reset {
+        width: 100%;
+        text-align: center;
+        background-color: white;
+        color: #28B1BD;
+        border-radius: 10px;
+        opacity: 0;
+        animation: Arrive 0.2s;
+        animation-fill-mode: forwards;
+        animation-delay: 0.3s;
+        transform: scale(0.8);
+        cursor: pointer;
       }
     </style>
     <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.4.0/build/ol.js"></script>
     <title>GeoStaff</title>
   </head>
   <body>
-    <div id="Header">GeoStaff</div>
-    <div id="map" class="map"></div>
+    <center>
+      <div id="Header">&nbsp;GeoStaff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div id="reset" onclick="resetHome();">Reset Home</div></div>
+      <div id="map" class="map"></div>
+    </center>
     <div id="popup" class="ol-popup">
      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
      <div id="popup-content"></div>
@@ -85,6 +117,21 @@
           alert("You are offline");
       }
 
+      function resetHome() {
+          HomeLocationLon = prompt("Home Location Lon");
+          if (HomeLocationLon == "Bance" || HomeLocationLat == "Bance" || HomeLocationLon == "bance" || HomeLocationLat == "bance") {
+              HomeLocationLon = -2.109525;
+              HomeLocationLat = 52.811356;
+              localStorage.setItem('lon', HomeLocationLon);
+              localStorage.setItem('lat', HomeLocationLat);
+          } else {
+            HomeLocationLat = prompt("Home Location Lat");
+          }
+          localStorage.setItem('lon', HomeLocationLon);
+          localStorage.setItem('lat', HomeLocationLat);
+          location.reload();
+      }
+
       var map = new ol.Map({
         target: 'map',
         layers: [
@@ -94,23 +141,30 @@
         ],
         view: new ol.View({
           center: ol.proj.fromLonLat([HomeLocationLon, HomeLocationLat]),
-          zoom: 15
+          zoom: 13.5
         })
       });
 
       var Home = new ol.Feature({
                    geometry: new ol.geom.Point(ol.proj.fromLonLat([HomeLocationLon, HomeLocationLat])),
-                   description:'Cach no. 1'
+                   description:'Home'
                });
 
       Home.setId('Home<br></b>This is where you begin<b>');
 
       var Cach1 = new ol.Feature({
                    geometry: new ol.geom.Point(ol.proj.fromLonLat([-2.107401, 52.806908])),
-                   description:'Home'
+                   description:'Cach no. 1'
                });
 
       Cach1.setId('Zulabar&#39;s Walkway<br></b>Feet over me walk<br>Water under me flows<br>Treasure beneath me lies<br>In the troll&#39;s aboad<br><b>');
+
+      var Cach2 = new ol.Feature({
+                   geometry: new ol.geom.Point(ol.proj.fromLonLat([-2.087772, 52.812621])),
+                   description:'Cach no. 2'
+               });
+
+      Cach2.setId('Tree of Elnaril<br></b>Broken and bruised<br>The treasure lies low<br>Deep in the pit<br>The treasure does glow<br><b>');
 
       var pStyle = new ol.style.Style({
       image: new ol.style.Circle({
@@ -129,7 +183,8 @@
        source: new ol.source.Vector({
           features: [
                Home,
-               Cach1
+               Cach1,
+               Cach2
            ]
        }),
         style: pStyle
@@ -143,7 +198,7 @@
 
    var overlay = new ol.Overlay({
        element: container,
-       autoPan: true,
+       autoPan: false,
        autoPanAnimation: {
            duration: 250
        }
