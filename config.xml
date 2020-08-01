@@ -1,4 +1,4 @@
-<?xml version='1.2' encoding='utf-8'?>
+<?xml version='1.3' encoding='utf-8'?>
 <widget id="com.geo.staff" version="1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>GeoStaff</name>
     <description>
@@ -12,6 +12,7 @@
     <preference name="target-device" value="universal" />
     <preference name="fullscreen" value="false" />
     <preference name="android-targetSdkVersion" value="28" />
+    <preference name="splash-screen-duration" value="0" />
     <icon src="Icon.png" />
     <allow-navigation href="http://*/*" />
     <allow-intent href="https://*/*" />

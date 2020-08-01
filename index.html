@@ -20,7 +20,7 @@
         width: 98vw;
         transform: translate(-1vw, 45px);
         animation: Arrive 1s;
-        animation-delay: 0.3s;
+        animation-delay: 1s;
         animation-fill-mode: forwards;
         opacity: 0;
         /*filter: hue-rotate(180deg);*/
@@ -82,12 +82,12 @@
   </head>
   <body>
     <center>
-      <div id="Header">&nbsp;GeoStaff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div id="reset" onclick="resetHome();">Reset Home</div></div>
+      <div id="Header">&nbsp;GeoStaff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div id="reset" onclick="resetHome();">Reset Home</div></div>
       <div id="map" class="map"></div>
     </center>
     <div id="popup" class="ol-popup">
      <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-     <div id="popup-content"></div>
+    <div id="popup-content"></div>
  </div>
     <script type="text/javascript">
 
@@ -98,8 +98,8 @@
           HomeLocationLon = prompt("Home Location Lon");
           localStorage.setItem('lon', HomeLocationLon);
           if (HomeLocationLon == "Bance" || HomeLocationLat == "Bance" || HomeLocationLon == "bance" || HomeLocationLat == "bance") {
-              HomeLocationLon = -2.109525;
-              HomeLocationLat = 52.811356;
+              HomeLocationLon = 52.811356;
+              HomeLocationLat = -2.109525;
               localStorage.setItem('lon', HomeLocationLon);
               localStorage.setItem('lat', HomeLocationLat);
           } else {
@@ -111,7 +111,7 @@
           HomeLocationLat = localStorage.getItem('lat');
       }
 
-      var banceHome = [-2.109525, 52.811356];
+      var banceHome = [52.811356, -2.109525];
 
       document.addEventListener("offline", onOffline, false);
 
@@ -122,8 +122,8 @@
       function resetHome() {
           HomeLocationLon = prompt("Home Location Lon");
           if (HomeLocationLon == "Bance" || HomeLocationLat == "Bance" || HomeLocationLon == "bance" || HomeLocationLat == "bance") {
-              HomeLocationLon = -2.109525;
-              HomeLocationLat = 52.811356;
+              HomeLocationLon = 52.811356;
+              HomeLocationLat = -2.109525;
               localStorage.setItem('lon', HomeLocationLon);
               localStorage.setItem('lat', HomeLocationLat);
           } else {
@@ -142,13 +142,13 @@
           })
         ],
         view: new ol.View({
-          center: ol.proj.fromLonLat([HomeLocationLon, HomeLocationLat]),
-          zoom: 14
+          center: ol.proj.fromLonLat([HomeLocationLat, HomeLocationLon]),
+          zoom: 13
         })
       });
 
       var Home = new ol.Feature({
-                   geometry: new ol.geom.Point(ol.proj.fromLonLat([HomeLocationLon, HomeLocationLat])),
+                   geometry: new ol.geom.Point(ol.proj.fromLonLat([HomeLocationLat, HomeLocationLon])),
                    description:'Home'
                });
 
@@ -168,6 +168,13 @@
 
       Cach2.setId('Tree of Elnaril<br></b>Broken and bruised<br>The treasure lies low<br>Deep in the pit<br>The treasure does glow<br><b>');
 
+      var Cach3 = new ol.Feature({
+                   geometry: new ol.geom.Point(ol.proj.fromLonLat([-2.100575, 52.811921])),
+                   description:'Cach no. 3'
+               });
+
+      Cach3.setId('Udore&#39;s Spire<br></b>Current flows<br>Towering tall<br>Proceed to the bottom<br>And in the ditch crawl<br><b>');
+
       var pStyle = new ol.style.Style({
       image: new ol.style.Circle({
         radius: 7,
@@ -176,7 +183,20 @@
         }),
         stroke: new ol.style.Stroke({
           color: '#28B1BD', 
-          width: 2
+          width: 3.5
+        })
+      })
+    })
+
+      var pStyle2 = new ol.style.Style({
+      image: new ol.style.Circle({
+        radius: 10,
+        fill: new ol.style.Fill({
+          color: 'rgba(59, 208, 219, 0.5)'
+        }),
+        stroke: new ol.style.Stroke({
+          color: '#28B1BD', 
+          width: 5
         })
       })
     })
@@ -184,15 +204,26 @@
       var layer = new ol.layer.Vector({
        source: new ol.source.Vector({
           features: [
-               Home,
                Cach1,
-               Cach2
+               Cach2,
+               Cach3
            ]
        }),
         style: pStyle
    });
 
    map.addLayer(layer);
+
+   var layer2 = new ol.layer.Vector({
+       source: new ol.source.Vector({
+          features: [
+               Home
+           ]
+       }),
+        style: pStyle2
+   });
+
+   map.addLayer(layer2);
 
    var container = document.getElementById('popup');
    var content = document.getElementById('popup-content');
